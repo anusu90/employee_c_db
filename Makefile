@@ -24,4 +24,4 @@ bin:
 clean:
 	rm -f obj/*.o
 	rm -f bin/*
-	rm -f *.d
+	rm -f *.db

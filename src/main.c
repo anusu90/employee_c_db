@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <getopt.h>
 #include <stdlib.h>
+#include "../include/file.h"
+#include "../include/common.h"
 
 void print_usage(char *argv[])
 {
@@ -18,6 +20,7 @@ int main(int argc, char *argv[])
     int flag;
     bool newFile = false;
     char *filePath = NULL;
+    int fileDescriptor = -1;
 
     while ((flag = getopt(argc, argv, "nf:")) != -1)
     {
@@ -45,8 +48,34 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    printf("New file: %d\n", newFile);
-    printf("Filepath: %s\n", filePath);
+    if (newFile)
+    {
+        fileDescriptor = create_db_file(filePath);
+        if (fileDescriptor == STATUS_ERROR)
+        {
+            printf("Error creating database file. File may already exist.\n");
+            return 1;
+        }
+    }
+    else
+    {
+        fileDescriptor = open_db_file(filePath);
+        if (fileDescriptor == STATUS_ERROR)
+        {
+            printf("Error opening database file. File may not exist.\n");
+            return 1;
+        }
+    }
+
+    if (fileDescriptor == -1)
+    {
+        printf("Error opening database file\n");
+        return 1;
+    }
+
+    printf("Database file opened successfully\n");
+
+    close_db_file(fileDescriptor);
 
     return 0;
 }
