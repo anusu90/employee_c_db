@@ -37,7 +37,7 @@ int open_db_file(char *filePath)
     fileDescriptor = open(filePath, O_RDONLY);
 
     // Create a file if it does not exist
-    if (fileDescriptor != -1)
+    if (fileDescriptor == -1)
     {
         close(fileDescriptor);
         return STATUS_ERROR;

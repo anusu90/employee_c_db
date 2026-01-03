@@ -4,6 +4,8 @@
     "file.h": "c",
     "stdio.h": "c",
     "stat.h": "c",
-    "common.h": "c"
+    "common.h": "c",
+    "parse.h": "c",
+    "stdlib.h": "c"
   }
 }

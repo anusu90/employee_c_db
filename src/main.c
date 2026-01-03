@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "../include/file.h"
 #include "../include/common.h"
+#include "../include/parse.h"
 
 void print_usage(char *argv[])
 {
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
     bool newFile = false;
     char *filePath = NULL;
     int fileDescriptor = -1;
+    db_header_t *header = NULL;
 
     while ((flag = getopt(argc, argv, "nf:")) != -1)
     {
@@ -54,7 +56,19 @@ int main(int argc, char *argv[])
         if (fileDescriptor == STATUS_ERROR)
         {
             printf("Error creating database file. File may already exist.\n");
-            return 1;
+            return -1;
+        }
+
+        if (create_db_header(fileDescriptor, &header) == STATUS_ERROR)
+        {
+            printf("Error creating database header\n");
+            return -1;
+        }
+
+        if (output_file(fileDescriptor, header) == STATUS_ERROR)
+        {
+            printf("Error writing database header\n");
+            return -1;
         }
     }
     else
@@ -64,6 +78,12 @@ int main(int argc, char *argv[])
         {
             printf("Error opening database file. File may not exist.\n");
             return 1;
+        }
+
+        if (validate_db_header(fileDescriptor, &header) == STATUS_ERROR)
+        {
+            printf("Error validating database header\n");
+            return -1;
         }
     }
 
