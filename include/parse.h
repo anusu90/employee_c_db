@@ -11,7 +11,7 @@ typedef struct
     unsigned short version;
 } db_header_t;
 
-int create_db_header(int fileDescriptor, db_header_t **header);
+int create_db_header(db_header_t **header);
 int validate_db_header(int fileDescriptor, db_header_t **header);
 int output_file(int fileDescriptor, db_header_t *header);
 

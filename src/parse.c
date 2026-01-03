@@ -4,10 +4,11 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 #include "../include/parse.h"
 #include "../include/common.h"
 
-int create_db_header(int fileDescriptor, db_header_t **headerOut)
+int create_db_header(db_header_t **headerOut)
 {
 
     db_header_t *header = calloc(1, sizeof(db_header_t));
